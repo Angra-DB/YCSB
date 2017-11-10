@@ -157,6 +157,7 @@ public class Driver {
   * @param key is a key of the requested document.
   */
   public String lookup(String key) throws IOException {
+    LOGGER.log(Level.INFO, "trying lookop"+ "\n");
     getTcpConnection();
     PrintWriter out = new PrintWriter(client.getOutputStream(), true);
     InputStreamReader in = new InputStreamReader(client.getInputStream());

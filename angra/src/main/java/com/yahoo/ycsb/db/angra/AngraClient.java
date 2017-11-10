@@ -73,10 +73,10 @@ public class AngraClient extends DB {
     try {
       String docId = formatId(table, key);
       String resp = driver.lookup(docId);
-      if (resp.substring(0, 1).equals("\"")) {
-        return Status.OK;
-      }else{
+      if (resp.equals("not_found") || resp.equals("{badrecord,state}")) {
         return Status.NOT_FOUND;
+      }else{
+        return Status.OK;
       }
     } catch (Exception ex) {
       ex.printStackTrace();
