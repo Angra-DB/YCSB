@@ -105,6 +105,7 @@ LICENSE file.
     <azurestorage.version>4.0.0</azurestorage.version>
     <cloudspanner.version>0.24.0-beta</cloudspanner.version>
     <angra.version>0.0.1</angra.version>
+    <couchdb.version>4.0.0</couchdb.version>
   </properties>
 
   <modules>
@@ -113,12 +114,12 @@ LICENSE file.
     <module>binding-parent</module>
     <module>distribution</module>
     <!-- all the datastore bindings, lex sorted please -->
-    <module>accumulo1.6</module>
+    <!-- <module>accumulo1.6</module>
     <module>accumulo1.7</module>
     <module>accumulo1.8</module>
-    <module>aerospike</module>
+    <module>aerospike</module> -->
     <module>angra</module>
-    <module>arangodb</module>
+    <!-- <module>arangodb</module>
     <module>arangodb3</module>
     <module>asynchbase</module>
     <module>azuredocumentdb</module>
@@ -126,8 +127,9 @@ LICENSE file.
     <module>cassandra</module>
     <module>cloudspanner</module>
     <module>couchbase</module>
-    <module>couchbase2</module>
-    <module>dynamodb</module>
+    <module>couchbase2</module> -->
+    <module>couchdb</module>
+    <!-- <module>dynamodb</module>
     <module>elasticsearch</module>
     <module>elasticsearch5</module>
     <module>geode</module>
@@ -137,13 +139,15 @@ LICENSE file.
     <module>hbase10</module>
     <module>hbase12</module>
     <module>hypertable</module>
-    <module>infinispan</module>
+    <module>infinispan</module> -->
     <module>jdbc</module>
-    <module>kudu</module>
+    <!-- <module>kudu</module> -->
+
     <!--<module>mapkeeper</module>-->
-    <module>memcached</module>
+
+    <!-- <module>memcached</module> -->
     <module>mongodb</module>
-    <module>nosqldb</module>
+    <!-- <module>nosqldb</module>
     <module>orientdb</module>
     <module>rados</module>
     <module>redis</module>
@@ -152,7 +156,7 @@ LICENSE file.
     <module>s3</module>
     <module>solr</module>
     <module>solr6</module>
-    <module>tarantool</module>
+    <module>tarantool</module> -->
     <!--<module>voldemort</module>-->
   </modules>
 
