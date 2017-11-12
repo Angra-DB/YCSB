@@ -20,6 +20,9 @@ import com.yahoo.ycsb.DBException;
 import com.yahoo.ycsb.StringByteIterator;
 import com.yahoo.ycsb.Status;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
 * Copyright 2013 KU Leuven Research and Development - iMinds - Distrinet
 *
@@ -42,8 +45,11 @@ public class CouchdbClient extends DB {
   /*
   **/
   // Default configuration
+  private static final Logger LOGGER = Logger.getLogger(CouchdbClient.class.getName());
 
   private String hosts;
+  private String user;
+  private String password;
 
   private static final String DEFAULT_DATABASE_NAME = "usertable";
   private static final int DEFAULT_COUCHDB_PORT_NUMBER = 5984;
@@ -65,14 +71,15 @@ public class CouchdbClient extends DB {
     if(urls == null) {
       throw new IllegalArgumentException("urls is null");
     }
-    this.dbConnector = new LoadBalancedConnector(urls, DEFAULT_DATABASE_NAME);
+    this.dbConnector = new LoadBalancedConnector(urls, DEFAULT_DATABASE_NAME, this.user, this.password);
   }
 
   private List<URL> getUrlsForHosts() throws DBException {
     List<URL> result = new ArrayList<URL>();
-    String[] differentHosts = hosts.split(",");
+    String[] differentHosts = this.hosts.split(",");
     for(String host : differentHosts) {
       URL url = this.getUrlForHost(host);
+      LOGGER.log(Level.INFO, "URL " + url + "\n");
       result.add(url);
     }
     return result;
@@ -98,9 +105,11 @@ public class CouchdbClient extends DB {
   public void init() throws DBException {
     Properties props = getProperties();
 
-    hosts = props.getProperty("couchdb.hosts", "127.0.0.1");
+    this.hosts = props.getProperty("couchdb.hosts", "127.0.0.1");
+    this.user = props.getProperty("couchdb.user", "admin");
+    this.password = props.getProperty("couchdb.password", "admin");
     List<URL> urls = getUrlsForHosts();
-    this.dbConnector = new LoadBalancedConnector(urls, DEFAULT_DATABASE_NAME);
+    this.dbConnector = new LoadBalancedConnector(urls, DEFAULT_DATABASE_NAME, this.user, this.password);
   }
 
   @Override

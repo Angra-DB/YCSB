@@ -71,7 +71,7 @@ public class LoadBalancedConnector implements CouchDbConnector {
 
   private static final Logger LOGGER = Logger.getLogger(LoadBalancedConnector.class.getName());
 
-  public LoadBalancedConnector(List<URL> urlsOfNodesInCluster, String databaseName){
+  public LoadBalancedConnector(List<URL> urlsOfNodesInCluster, String databaseName, String user, String password){
     if(urlsOfNodesInCluster == null) {
       throw new IllegalArgumentException("urlsOfNodesInClusterIsNull");
     }
@@ -79,14 +79,15 @@ public class LoadBalancedConnector implements CouchDbConnector {
     if(urlsOfNodesInCluster.isEmpty()) {
       throw new IllegalArgumentException("At least one node required");
     }
-    this.connectors = this.createConnectors(urlsOfNodesInCluster, databaseName);
+    this.connectors = this.createConnectors(urlsOfNodesInCluster, databaseName, user, password);
     this.nextConnector = 0;
   }
 
-  private List<CouchDbConnector> createConnectors(List<URL> urlsForConnectors, String databaseName){
+  private List<CouchDbConnector> createConnectors(List<URL> urlsForConnectors,
+      String databaseName, String user, String password){
     List<CouchDbConnector> result = new ArrayList<CouchDbConnector>();
     for(URL url : urlsForConnectors) {
-      HttpClient httpClient = new StdHttpClient.Builder().url(url).build();
+      HttpClient httpClient = new StdHttpClient.Builder().url(url).username(user).password(password).build();
       CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
       // 2nd paramter true => Create database if not exists
       CouchDbConnector dbConnector = dbInstance.createConnector(databaseName, true);

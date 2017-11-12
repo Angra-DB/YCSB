@@ -47,14 +47,14 @@ public class Driver {
   *
   */
   public void getTcpConnection(){
-    LOGGER.log(Level.INFO, "getTCPConnection: Trying to connect to " + host + ":" + port + "....\n");
     try {
       if (client == null) {
         client = new Socket(host, Integer.parseInt(port));
         LOGGER.log(Level.INFO, "getTCPConnection: Connected to " + host + ":" + port + ".\n");
       }
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, "getTCPConnection: Could not create a TCP connection " +
+      LOGGER.log(Level.SEVERE, "getTCPConnection: Could not create a TCP connection, trying to connect to " + 
+          host + ":" + port +
           "due to the following exception: ", e);
       //throw new Exception();
     }
