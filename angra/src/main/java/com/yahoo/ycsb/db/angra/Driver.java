@@ -193,7 +193,8 @@ public class Driver {
       LOGGER.log(Level.INFO, "updade: update on key " + key + " done in database.\n");
     } else {
       LOGGER.log(Level.SEVERE, "updade: Could not updade the " + key+
-          " key in database, with following document: "+ newDocument+ "\n");
+          " key in database, with following document: "+ newDocument+ "\n" +
+          " this is the response: "+ resp + "\n");
     }
     return resp;
   }
