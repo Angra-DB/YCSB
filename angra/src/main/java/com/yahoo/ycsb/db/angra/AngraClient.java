@@ -68,6 +68,15 @@ public class AngraClient extends DB {
   }
 
   @Override
+  public void cleanup() throws DBException {
+    try{
+      driver.closeTcpConnection();
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  @Override
   public Status read(final String table, final String key, Set<String> fields,
                      final Map<String, ByteIterator> result) {
     try {

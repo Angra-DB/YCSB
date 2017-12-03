@@ -53,12 +53,21 @@ public class Driver {
         //LOGGER.log(Level.INFO, "getTCPConnection: Connected to " + host + ":" + port + ".\n");
       }
     } catch (Exception e) {
-      LOGGER.log(Level.SEVERE, "getTCPConnection: Could not create a TCP connection, trying to connect to " + 
+      LOGGER.log(Level.SEVERE, "getTCPConnection: Could not create a TCP connection, trying to connect to " +
           host + ":" + port +
           "due to the following exception: ", e);
       //throw new Exception();
     }
 
+  }
+
+  public void closeTcpConnection(){
+    try{
+      client.close();
+    } catch (Exception e){
+      LOGGER.log(Level.SEVERE,
+          "closeTCPConnection: Could not close a TCP connection, due the following exception: ", e);
+    }
   }
 
   /**
