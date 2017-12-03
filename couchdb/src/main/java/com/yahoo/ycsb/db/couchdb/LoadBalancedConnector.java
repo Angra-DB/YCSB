@@ -90,7 +90,12 @@ public class LoadBalancedConnector implements CouchDbConnector {
       HttpClient httpClient = new StdHttpClient.Builder().url(url).username(user).password(password).build();
       CouchDbInstance dbInstance = new StdCouchDbInstance(httpClient);
       // 2nd paramter true => Create database if not exists
-      CouchDbConnector dbConnector = dbInstance.createConnector(databaseName, true);
+      try{
+        dbInstance.createDatabase(databaseName);
+      } catch(Exception exc) {
+        LOGGER.log(Level.INFO, "Exception" + exc + "\n");
+      }
+      CouchDbConnector dbConnector = dbInstance.createConnector(databaseName, false);
       result.add(dbConnector);
     }
     return result;

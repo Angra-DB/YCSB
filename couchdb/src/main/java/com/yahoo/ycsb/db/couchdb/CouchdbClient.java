@@ -109,7 +109,11 @@ public class CouchdbClient extends DB {
     this.user = props.getProperty("couchdb.user", "admin");
     this.password = props.getProperty("couchdb.password", "admin");
     List<URL> urls = getUrlsForHosts();
-    this.dbConnector = new LoadBalancedConnector(urls, DEFAULT_DATABASE_NAME, this.user, this.password);
+    try{
+      this.dbConnector = new LoadBalancedConnector(urls, DEFAULT_DATABASE_NAME, this.user, this.password);
+    } catch(Exception ex) {
+      LOGGER.log(Level.INFO, ex.toString());
+    }
   }
 
   @Override

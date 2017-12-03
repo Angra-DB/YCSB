@@ -50,7 +50,7 @@ public class Driver {
     try {
       if (client == null) {
         client = new Socket(host, Integer.parseInt(port));
-        LOGGER.log(Level.INFO, "getTCPConnection: Connected to " + host + ":" + port + ".\n");
+        //LOGGER.log(Level.INFO, "getTCPConnection: Connected to " + host + ":" + port + ".\n");
       }
     } catch (Exception e) {
       LOGGER.log(Level.SEVERE, "getTCPConnection: Could not create a TCP connection, trying to connect to " + 
@@ -76,7 +76,7 @@ public class Driver {
     out.println("create_db " + dbName);
 
     if (reader.readLine().contains("{ok")) {
-      LOGGER.log(Level.INFO, "createDatabase: Database " + dbName + " created with success.\n");
+      //LOGGER.log(Level.INFO, "createDatabase: Database " + dbName + " created with success.\n");
     } else {
       LOGGER.log(Level.SEVERE, "createDatabase: Could not create the database " + dbName+ "\n");
     }
@@ -97,7 +97,7 @@ public class Driver {
     out.println("connect " + dbName);
 
     if (reader.readLine().contains("Database set to")) {
-      LOGGER.log(Level.INFO, "connectToDatabase: Connected to " + dbName + " database.\n");
+      //LOGGER.log(Level.INFO, "connectToDatabase: Connected to " + dbName + " database.\n");
     } else {
       LOGGER.log(Level.SEVERE, "connectToDatabase: Could not connect the database " + dbName+ "\n");
     }
@@ -120,7 +120,7 @@ public class Driver {
     String key = reader.readLine();
 
     if (key.contains("\"")) {
-      LOGGER.log(Level.INFO, "save: save key " + key + " to database.\n");
+      //LOGGER.log(Level.INFO, "save: save key " + key + " to database.\n");
     } else {
       LOGGER.log(Level.SEVERE, "save: Could not save the database " + key+
           " with following document: "+ document+ "\n");
@@ -143,7 +143,7 @@ public class Driver {
 
     String recKey = reader.readLine();
     if (recKey.contains("\"")) {
-      LOGGER.log(Level.INFO, "saveKey: save key " + recKey + " to database.\n");
+      //LOGGER.log(Level.INFO, "saveKey: save key " + recKey + " to database.\n");
     } else {
       LOGGER.log(Level.SEVERE, "saveKey: Could not save the database " + recKey+
           " with following document: "+ document+ "\n");
@@ -157,7 +157,7 @@ public class Driver {
   * @param key is a key of the requested document.
   */
   public String lookup(String key) throws IOException {
-    LOGGER.log(Level.INFO, "trying lookop"+ "\n");
+    //LOGGER.log(Level.INFO, "trying lookop"+ "\n");
     getTcpConnection();
     PrintWriter out = new PrintWriter(client.getOutputStream(), true);
     InputStreamReader in = new InputStreamReader(client.getInputStream());
@@ -170,7 +170,7 @@ public class Driver {
       LOGGER.log(Level.SEVERE, "lookup: Could not find " + key +
           " in the database, received following response: "+ resp + "\n");
     } else {
-      LOGGER.log(Level.INFO, "lookup: lookup key " + key + " to database and found:" + resp + "\n");
+      //LOGGER.log(Level.INFO, "lookup: lookup key " + key + " to database and found:" + resp + "\n");
     }
     return resp;
   }
@@ -190,7 +190,7 @@ public class Driver {
     out.println("update " + key + " " + newDocument);
     String resp = reader.readLine();
     if (resp.startsWith("ok")) {
-      LOGGER.log(Level.INFO, "updade: update on key " + key + " done in database.\n");
+      //LOGGER.log(Level.INFO, "updade: update on key " + key + " done in database.\n");
     } else {
       LOGGER.log(Level.SEVERE, "updade: Could not updade the " + key+
           " key in database, with following document: "+ newDocument+ "\n" +
@@ -214,7 +214,7 @@ public class Driver {
     out.println("delete " + key);
     String resp = reader.readLine();
     if (resp.startsWith("ok")) {
-      LOGGER.log(Level.INFO, "delete: delete on key " + key + " done in database.\n");
+      //LOGGER.log(Level.INFO, "delete: delete on key " + key + " done in database.\n");
     } else {
       LOGGER.log(Level.SEVERE, "delete: Could not delete the " + key+
           " key in database, with following response: "+ resp+ "\n");
