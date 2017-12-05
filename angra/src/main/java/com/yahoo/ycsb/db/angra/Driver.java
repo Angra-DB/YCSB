@@ -58,7 +58,6 @@ public class Driver {
           "due to the following exception: ", e);
       //throw new Exception();
     }
-
   }
 
   public void closeTcpConnection(){
@@ -144,6 +143,7 @@ public class Driver {
   */
   public String saveKey(String key, String document) throws IOException {
     getTcpConnection();
+    //document="doc";
     PrintWriter out = new PrintWriter(client.getOutputStream(), true);
     InputStreamReader in = new InputStreamReader(client.getInputStream());
     BufferedReader reader = new BufferedReader(in);
@@ -152,10 +152,15 @@ public class Driver {
 
     String recKey = reader.readLine();
     if (recKey.contains("\"")) {
-      //LOGGER.log(Level.INFO, "saveKey: save key " + recKey + " to database.\n");
+      //LOGGER.log(Level.INFO, "[SUCCESS] saveKey: received: "+ recKey + "\n" +
+      //    "key: " + key + "\n" +
+      //    "document:" + document + "\n" +
+      //    "time:" + System.nanoTime() + "\n");
     } else {
-      LOGGER.log(Level.SEVERE, "saveKey: Could not save the database " + recKey+
-          " with following document: "+ document+ "\n");
+      LOGGER.log(Level.INFO, "[FAIL] saveKey: received: "+ recKey + "\n" +
+          "key: " + key + "\n" +
+          "document:" + document + "\n" +
+          "time:" + System.nanoTime() + "\n");
     }
     return recKey.replaceAll("\"", "");
   }
@@ -166,7 +171,6 @@ public class Driver {
   * @param key is a key of the requested document.
   */
   public String lookup(String key) throws IOException {
-    //LOGGER.log(Level.INFO, "trying lookop"+ "\n");
     getTcpConnection();
     PrintWriter out = new PrintWriter(client.getOutputStream(), true);
     InputStreamReader in = new InputStreamReader(client.getInputStream());
@@ -178,9 +182,8 @@ public class Driver {
     if (resp.equals("not_found") || resp.equals("{badrecord,state}")) {
       LOGGER.log(Level.SEVERE, "lookup: Could not find " + key +
           " in the database, received following response: "+ resp + "\n");
-    } else {
-      //LOGGER.log(Level.INFO, "lookup: lookup key " + key + " to database and found:" + resp + "\n");
     }
+
     return resp;
   }
 
@@ -198,9 +201,7 @@ public class Driver {
 
     out.println("update " + key + " " + newDocument);
     String resp = reader.readLine();
-    if (resp.startsWith("ok")) {
-      //LOGGER.log(Level.INFO, "updade: update on key " + key + " done in database.\n");
-    } else {
+    if (!resp.startsWith("ok")) {
       LOGGER.log(Level.SEVERE, "updade: Could not updade the " + key+
           " key in database, with following document: "+ newDocument+ "\n" +
           " this is the response: "+ resp + "\n");
@@ -212,7 +213,6 @@ public class Driver {
   * Delete a document.
   *
   * @param key is a key of the document to be deleted. {error,keyUnused}
-
   */
   public String delete(String key) throws IOException {
     getTcpConnection();
@@ -222,9 +222,7 @@ public class Driver {
 
     out.println("delete " + key);
     String resp = reader.readLine();
-    if (resp.startsWith("ok")) {
-      //LOGGER.log(Level.INFO, "delete: delete on key " + key + " done in database.\n");
-    } else {
+    if (!resp.startsWith("ok")) {
       LOGGER.log(Level.SEVERE, "delete: Could not delete the " + key+
           " key in database, with following response: "+ resp+ "\n");
     }

@@ -80,8 +80,11 @@ public class AngraClient extends DB {
   public Status read(final String table, final String key, Set<String> fields,
                      final Map<String, ByteIterator> result) {
     try {
+      Driver d = new Driver(host, port);
+      d.connectToDatabase(schema);
       String docId = formatId(table, key);
       String resp = driver.lookup(docId);
+      d.closeTcpConnection();
       if (resp.equals("not_found")){
         return Status.NOT_FOUND;
       }else if (resp.equals("{badrecord,state}")){
@@ -98,8 +101,11 @@ public class AngraClient extends DB {
   @Override
   public Status update(final String table, final String key, final Map<String, ByteIterator> values) {
     try {
+      Driver d = new Driver(host, port);
+      d.connectToDatabase(schema);
       String docId = formatId(table, key);
-      String resp = driver.update(docId, values.toString());
+      String resp = d.update(docId, values.toString());
+      d.closeTcpConnection();
       if (resp.equals("ok")){
         return Status.OK;
       }else{
@@ -114,13 +120,17 @@ public class AngraClient extends DB {
   @Override
   public Status insert(final String table, final String key, final Map<String, ByteIterator> values) {
     try {
+      Driver d = new Driver(host, port);
+      d.connectToDatabase(schema);
       String docId = formatId(table, key);
-      String recKey = driver.saveKey(docId, values.toString());
+      String recKey = d.saveKey(docId, values.toString());
+      d.closeTcpConnection();
       if (recKey.equals(docId)){
         return Status.OK;
       }else{
         return Status.NOT_FOUND;
       }
+
     } catch (Exception ex) {
       ex.printStackTrace();
       return Status.ERROR;
@@ -148,7 +158,7 @@ public class AngraClient extends DB {
       final Vector<HashMap<String, ByteIterator>> result) {
     try {
       // TODO
-      return Status.OK;
+      return Status.NOT_IMPLEMENTED;
     } catch (Exception ex) {
       ex.printStackTrace();
       return Status.ERROR;
