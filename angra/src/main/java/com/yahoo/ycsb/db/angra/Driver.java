@@ -36,7 +36,7 @@ public class Driver {
   private Socket client;
   private String host;
   private String port;
-
+  private JsonUtil jsonUtil = new JsonUtil();
   public Driver(String host, String port) throws Exception {
     this.host = host;
     this.port = port;
@@ -123,7 +123,7 @@ public class Driver {
     InputStreamReader in = new InputStreamReader(client.getInputStream());
     BufferedReader reader = new BufferedReader(in);
 
-    out.println("save " + document);
+    out.println("save " + jsonUtil.encode(document, "doc"));
 
     String key = reader.readLine();
 
@@ -148,7 +148,7 @@ public class Driver {
     InputStreamReader in = new InputStreamReader(client.getInputStream());
     BufferedReader reader = new BufferedReader(in);
 
-    out.println("save_key " + key + " " + document);
+    out.println("save_key " + key + " " + jsonUtil.encode(document, "doc"));
 
     String recKey = reader.readLine();
     if (recKey.contains("\"")) {
